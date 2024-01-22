@@ -3,11 +3,13 @@ package br.com.depgm.ecommerce.entity;
 import br.com.depgm.ecommerce.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "users")
 public class User {
 
@@ -16,8 +18,7 @@ public class User {
     private Long id;
 
     private String email;
-
-    @Column(length = 50)
+    
     private String password;
 
     @Column(length = 100)
