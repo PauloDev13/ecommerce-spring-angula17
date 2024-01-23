@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormsModule,
@@ -27,6 +27,7 @@ import { UserStorageService } from '../services/user-storage.service';
 @Component({
   selector: 'app-login',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
     MatButton,
@@ -75,12 +76,8 @@ export class LoginComponent {
         .pipe(take(1))
         .subscribe({
           next: () => {
-            this.userStorageService.userLoggedIn.set(
-              UserStorageService.getUserRole()!,
-            );
-
             if (this.userStorageService.userLoggedIn() === 'ADMIN') {
-              this.router.navigate(['admin/dasboard']).then();
+              this.router.navigate(['admin/dashboard']).then();
             } else {
               this.router.navigate(['costumer/dashboard']).then();
             }

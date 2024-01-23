@@ -1,5 +1,4 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 import { UserStorageInterface } from '../models/user-storage.interface';
 
@@ -10,10 +9,7 @@ const USER = 'ecom-user';
   providedIn: 'root',
 })
 export class UserStorageService {
-  BASE_URL = 'http://localhost:8080';
-  userLoggedIn = signal('');
-
-  protected readonly http = inject(HttpClient);
+  userLoggedIn = signal(UserStorageService.getUserRole());
 
   static getToken(): string {
     return localStorage.getItem(TOKEN)!;
@@ -33,34 +29,36 @@ export class UserStorageService {
     return this.getUser().userId;
   }
 
-  static getUserRole(): string | null {
+  static getUserRole(): string {
     if (!this.getUser()) {
-      return null;
+      return '';
     }
+    console.log(this.getUser().role);
     return this.getUser().role;
   }
 
-  static isAdminLogged(): boolean {
-    if (!this.getToken()) {
-      return false;
-    }
-    const role: string = this.getUserRole()!;
-    return role === 'ADMIN';
-  }
+  // static isAdminLogged(): boolean {
+  //   if (!this.getToken()) {
+  //     return false;
+  //   }
+  //   const role: string = this.getUserRole()!;
+  //   return role === 'ADMIN';
+  // }
+  //
+  // static isCostumerLogged(): boolean {
+  //   if (!this.getToken()) {
+  //     return false;
+  //   }
+  //   const role: string = this.getUserRole()!;
+  //   return role === 'COSTUMER';
+  // }
 
-  static isCostumerLogged(): boolean {
-    if (!this.getToken()) {
-      return false;
-    }
-    const role: string = this.getUserRole()!;
-    return role === 'COSTUMER';
-  }
-
-  static signOut() {
+  signOut() {
     if (localStorage) {
       localStorage.removeItem(TOKEN);
       localStorage.removeItem(USER);
     }
+    this.userLoggedIn.set(UserStorageService.getUserRole());
   }
 
   public saveToken(token: string): void {

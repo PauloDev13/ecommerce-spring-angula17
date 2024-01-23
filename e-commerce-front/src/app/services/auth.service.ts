@@ -40,6 +40,9 @@ export class AuthService {
           if (token && user) {
             this.userStorageService.saveToken(token);
             this.userStorageService.saveUser(user);
+            this.userStorageService.userLoggedIn.set(
+              UserStorageService.getUserRole(),
+            );
             return true;
           }
           return false;
