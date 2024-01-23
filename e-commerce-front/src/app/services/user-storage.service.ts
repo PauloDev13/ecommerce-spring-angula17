@@ -16,10 +16,7 @@ export class UserStorageService {
   }
 
   static getUser(): UserStorageInterface {
-    const userStorage: UserStorageInterface = JSON.parse(
-      localStorage.getItem(USER)!,
-    );
-    return userStorage;
+    return JSON.parse(localStorage.getItem(USER)!);
   }
 
   static getUserId(): number | null {
@@ -33,7 +30,6 @@ export class UserStorageService {
     if (!this.getUser()) {
       return '';
     }
-    console.log(this.getUser().role);
     return this.getUser().role;
   }
 

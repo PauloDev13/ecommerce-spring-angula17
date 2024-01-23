@@ -59,13 +59,13 @@ export class SignupComponent {
     }
     if (this.signupForm.valid) {
       const request: SignupRequestInterface = {
-        email: this.signupForm.controls.email.value!,
-        name: this.signupForm.controls.name.value!,
-        password: this.signupForm.controls.password.value!,
+        email: this.signupForm.value.email!,
+        name: this.signupForm.value.name!,
+        password: this.signupForm.value.password!,
       };
 
       this.authService
-        .register(request)
+        .register$(request)
         .pipe(take(1))
         .subscribe({
           next: () => {

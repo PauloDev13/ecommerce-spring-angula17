@@ -16,14 +16,14 @@ export class AuthService {
   protected readonly http = inject(HttpClient);
   protected userStorageService = inject(UserStorageService);
 
-  register(request: SignupRequestInterface) {
+  register$(request: SignupRequestInterface) {
     return this.http.post<SignupResponseInterface>(
       `${this.BASE_URL}/sign-up`,
       request,
     );
   }
 
-  public login(request: LoginRequest): Observable<boolean> {
+  public login$(request: LoginRequest): Observable<boolean> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http
       .post(`${this.BASE_URL}/authenticate`, request, {

@@ -72,7 +72,7 @@ export class LoginComponent {
       };
 
       this.authService
-        .login(request)
+        .login$(request)
         .pipe(take(1))
         .subscribe({
           next: () => {

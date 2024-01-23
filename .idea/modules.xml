@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/e-commerce-api/e-commerce-api.iml" filepath="$PROJECT_DIR$/e-commerce-api/e-commerce-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/e-commerce-spring-angular17-mysql.iml" filepath="$PROJECT_DIR$/.idea/e-commerce-spring-angular17-mysql.iml" />
     </modules>
   </component>
