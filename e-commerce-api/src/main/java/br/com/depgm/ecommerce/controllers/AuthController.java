@@ -29,8 +29,8 @@ import java.util.Optional;
 @CrossOrigin(value = "*")
 public class AuthController {
 
-    public static final String HEADER_STRING = "Bearer ";
-    public static final String TOKEN_PREFIX = "Authorization ";
+    public static final String HEADER_STRING = "Authorization";
+    public static final String TOKEN_PREFIX = "Bearer ";
 
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
@@ -59,6 +59,10 @@ public class AuthController {
                     .put("role", optionalUser.get().getRole())
                     .toString()
             );
+
+            response.addHeader("Access-Control-Expose-Headers", "Authorization");
+            response.addHeader("Access-Control-Allow-Headers", "Authorization, X-PINGOTHER, " +
+                    "Origin, X-Requested-With, Content-Type, Accept, X-Custom-Header");
 
             response.addHeader(HEADER_STRING, TOKEN_PREFIX + jwt);
         }

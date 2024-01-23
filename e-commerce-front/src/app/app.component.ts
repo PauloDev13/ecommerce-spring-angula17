@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
+
+import { UserStorageService } from './services/user-storage.service';
 
 const MATERIAL = [MatToolbarModule, MatButtonModule];
 
@@ -13,5 +15,18 @@ const MATERIAL = [MatToolbarModule, MatButtonModule];
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'e-commerce-front';
+  title = 'ECommerce Angular';
+  private router = inject(Router);
+  private userStorageService = inject(UserStorageService);
+
+  protected userLoggedIn = this.userStorageService.userLoggedIn;
+
+  constructor() {
+    this.userStorageService.userLoggedIn.set(UserStorageService.getUserRole()!);
+  }
+
+  logout() {
+    UserStorageService.signOut();
+    this.router.navigate(['login']).then();
+  }
 }

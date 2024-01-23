@@ -1,8 +1,23 @@
 <mat-toolbar class="navbar" color="primary">
   <span class="navbar-brand">E-Commerce</span>
   <span class="space"></span>
-  <button mat-button routerLink="order" routerLinkActive="active">Track Order</button>
-  <button mat-button routerLink="signup" routerLinkActive="active">Register</button>
-  <button mat-button routerLink="login" routerLinkActive="active">Login</button>
+
+  @if (!userLoggedIn()) {
+    <button mat-button routerLink="order" routerLinkActive="active">Track Order</button>
+    <button mat-button routerLink="signup" routerLinkActive="active">Register</button>
+    <button mat-button routerLink="login" routerLinkActive="active">Login</button>
+  } @else if (userLoggedIn() === 'ADMIN') {
+    <button mat-button routerLink="admin/dashboard" routerLinkActive="active">Dashboard</button>
+    <button mat-button routerLink="admin/analytics" routerLinkActive="active">Analytics</button>
+    <button mat-button routerLink="admin/category" routerLinkActive="active">Category</button>
+    <button mat-button (click)="logout()" routerLinkActive="active">Logout</button>
+  } @else {
+    <button mat-button routerLink="costumer/dashboard" routerLinkActive="active">Dashboard</button>
+    <button mat-button routerLink="costumer/cart" routerLinkActive="active">Cart</button>
+    <button mat-button routerLink="costumer/my_orders" routerLinkActive="active">Orders</button>
+    <button mat-button routerLink="costumer/wishlist" routerLinkActive="active">Wishlist</button>
+    <button mat-button routerLink="costumer/profile" routerLinkActive="active">Profile</button>
+    <button mat-button (click)="logout()" routerLinkActive="active">Logout</button>
+  }
 </mat-toolbar>
 <router-outlet/>

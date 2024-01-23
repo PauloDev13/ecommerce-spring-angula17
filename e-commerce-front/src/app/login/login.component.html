@@ -1,1 +1,44 @@
-<p>login works!</p>
+<div class="container">
+  <mat-card>
+    <mat-card-title>Login</mat-card-title>
+
+    <mat-card-content>
+      <form [formGroup]="loginForm">
+
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input formControlName="email" matInput placeholder="Email" required/>
+
+          @if (loginForm.controls.email.invalid && loginForm.controls.email.touched) {
+            <mat-error>
+              Email is required
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input formControlName="password" matInput placeholder="Password" required
+                 type="{{ hidePassword ? 'password' : 'text'}}"/>
+
+          <button (click)="togglePasswordVisibility()" mat-icon-button matSuffix>
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+
+          @if (loginForm.controls.password.invalid && loginForm.controls.password.touched) {
+            <mat-error>
+              Password is required
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <button (click)="onSubmit()" color="primary" mat-raised-button type="submit">Sign
+          Up
+        </button>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <button color="accent" mat-button routerLink="/signup">Don't have an account? Sign Up</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

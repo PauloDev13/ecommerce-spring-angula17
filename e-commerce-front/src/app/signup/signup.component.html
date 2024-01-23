@@ -1,1 +1,67 @@
-<p>signup works!</p>
+<div class="container">
+  <mat-card>
+    <mat-card-title>Sign Up</mat-card-title>
+
+    <mat-card-content>
+      <form [formGroup]="signupForm">
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input formControlName="name" matInput placeholder="Name" required/>
+
+          @if (signupForm.controls.name.invalid && signupForm.controls.name.touched) {
+            <mat-error>
+              Name is required
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input formControlName="email" matInput placeholder="Email" required/>
+
+          @if (signupForm.controls.email.invalid && signupForm.controls.email.touched) {
+            <mat-error>
+              Email is required
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input formControlName="password" matInput placeholder="Password" required
+                 type="{{ hidePassword ? 'password' : 'text'}}"/>
+
+          <button (click)="togglePasswordVisibility()" mat-icon-button matSuffix>
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+
+          @if (signupForm.controls.password.invalid && signupForm.controls.password.touched) {
+            <mat-error>
+              Password is required
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Confirm Password</mat-label>
+          <input formControlName="confirmPassword" matInput placeholder="Confirm Password" required
+                 type="{{ hidePassword ? 'password' : 'text'}}"/>
+
+          <button (click)="togglePasswordVisibility()" mat-icon-button matSuffix>
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+
+          @if (signupForm.controls.confirmPassword.invalid && signupForm.controls.confirmPassword.touched) {
+            <mat-error>
+              Confirm Password is required
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <button (click)="onSubmit()" color="primary" mat-raised-button type="submit">Sign
+          Up
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
