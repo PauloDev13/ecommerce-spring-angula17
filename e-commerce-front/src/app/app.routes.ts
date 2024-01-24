@@ -1,7 +1,5 @@
 import { Routes } from '@angular/router';
 
-import { AdminComponent } from './admin/admin.component';
-import { CostumerComponent } from './costumer/costumer.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 
@@ -15,11 +13,13 @@ export const routes: Routes = [
     component: SignupComponent,
   },
   {
-    path: 'costumer/dashboard',
-    component: CostumerComponent,
+    path: 'costumer',
+    loadChildren: () =>
+      import('./costumer/costumer.routes').then(m => m.COSTUMER_ROUTES),
   },
   {
-    path: 'admin/dashboard',
-    component: AdminComponent,
+    path: 'admin',
+    loadChildren: () =>
+      import('./admin/admin.routes').then(m => m.ADMIN_ROUTES),
   },
 ];

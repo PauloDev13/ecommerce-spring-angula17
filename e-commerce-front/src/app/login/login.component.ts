@@ -67,8 +67,8 @@ export class LoginComponent {
   onSubmit() {
     if (this.loginForm.valid) {
       const request: LoginRequest = {
-        username: this.loginForm.controls.email.value!,
-        password: this.loginForm.controls.password.value!,
+        username: this.loginForm.value.email!,
+        password: this.loginForm.value.password!,
       };
 
       this.authService
