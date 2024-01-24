@@ -37,6 +37,7 @@ export class PostCategoryComponent {
 
   addCategory() {
     if (this.categoryForm.valid) {
+      console.log(this.categoryForm.value);
       this.adminService
         .createCategory$(this.categoryForm.getRawValue())
         .pipe(take(1))

@@ -23,7 +23,7 @@ export class AdminService {
     );
   }
 
-  private authorizationHeader() {
+  private authorizationHeader(): HttpHeaders {
     return new HttpHeaders({
       Authorization: `Bearer ${UserStorageService.getToken()}`,
     });
