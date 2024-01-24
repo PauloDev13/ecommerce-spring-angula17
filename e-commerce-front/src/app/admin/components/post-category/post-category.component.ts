@@ -4,7 +4,8 @@ import { MatButton } from '@angular/material/button';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { tap } from 'rxjs';
+import { Router } from '@angular/router';
+import { take } from 'rxjs';
 
 import { AdminService } from '../../service/admin.service';
 
@@ -31,21 +32,21 @@ export class PostCategoryComponent {
     description: ['', [Validators.required]],
   });
 
+  protected readonly router = inject(Router);
   protected readonly snackBar = inject(MatSnackBar);
 
   addCategory() {
     if (this.categoryForm.valid) {
       this.adminService
         .createCategory$(this.categoryForm.getRawValue())
-        .pipe(
-          // take(1),
-          tap(t => console.log(t.name)),
-        )
+        .pipe(take(1))
         .subscribe({
           next: () => {
-            this.snackBar.open('Category saved successfully', 'close', {
-              duration: 3000,
-              panelClass: 'success-snackbar',
+            this.router.navigate(['/admin/dashboard']).then(() => {
+              this.snackBar.open('Category saved successfully', 'close', {
+                duration: 3000,
+                panelClass: 'success-snackbar',
+              });
             });
           },
           error: err => {
@@ -55,6 +56,8 @@ export class PostCategoryComponent {
             });
           },
         });
+    } else {
+      this.categoryForm.markAllAsTouched();
     }
   }
 }
