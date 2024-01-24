@@ -30,7 +30,7 @@ public class WebSecurityConfiguration {
                 .permitAll()
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/**")
+                .requestMatchers("api/**")
                 .authenticated()
                 .and()
                 .sessionManagement()
