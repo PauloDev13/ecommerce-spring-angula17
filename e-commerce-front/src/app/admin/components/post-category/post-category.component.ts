@@ -28,16 +28,15 @@ export class PostCategoryComponent {
   protected readonly formBuilder = inject(FormBuilder);
 
   categoryForm = this.formBuilder.group({
-    name: ['', [Validators.required], Validators.minLength(3)],
+    name: ['', [Validators.required, Validators.minLength(3)]],
     description: ['', [Validators.required, Validators.minLength(5)]],
   });
 
   protected readonly router = inject(Router);
   protected readonly snackBar = inject(MatSnackBar);
 
-  addCategory() {
+  addCategory(): void {
     if (this.categoryForm.valid) {
-      console.log(this.categoryForm.value);
       this.adminService
         .createCategory$(this.categoryForm.getRawValue())
         .pipe(take(1))

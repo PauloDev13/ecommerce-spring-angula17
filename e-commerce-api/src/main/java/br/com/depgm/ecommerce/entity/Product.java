@@ -1,5 +1,6 @@
 package br.com.depgm.ecommerce.entity;
 
+import br.com.depgm.ecommerce.dtos.ProductDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -36,5 +37,17 @@ public class Product {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Category category;
+
+    public ProductDTO getProductDTO() {
+        return new ProductDTO(
+                id,
+                name,
+                price,
+                description,
+                img,
+                category.getId(),
+                null
+        );
+    }
 
 }
