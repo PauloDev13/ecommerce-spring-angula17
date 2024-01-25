@@ -38,9 +38,9 @@ export class SignupComponent {
   protected router = inject(Router);
 
   protected signupForm = this.formBuilder.group({
-    name: ['', [Validators.required]],
+    name: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
     confirmPassword: ['', [Validators.required]],
   });
   protected hidePassword: boolean = true;
@@ -76,12 +76,15 @@ export class SignupComponent {
 
             this.router.navigate(['/login']).then();
           },
-          error: () =>
-            this.snackBar.open('Error add user', 'close', {
+          error: err => {
+            this.snackBar.open(`${err.error}`, 'close', {
               duration: 3000,
               panelClass: 'error-snackbar',
-            }),
+            });
+          },
         });
+    } else {
+      this.signupForm.markAllAsTouched();
     }
   }
 

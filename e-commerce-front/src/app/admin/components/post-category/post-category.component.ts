@@ -28,8 +28,8 @@ export class PostCategoryComponent {
   protected readonly formBuilder = inject(FormBuilder);
 
   categoryForm = this.formBuilder.group({
-    name: ['', [Validators.required]],
-    description: ['', [Validators.required]],
+    name: ['', [Validators.required], Validators.minLength(3)],
+    description: ['', [Validators.required, Validators.minLength(5)]],
   });
 
   protected readonly router = inject(Router);
@@ -55,6 +55,7 @@ export class PostCategoryComponent {
               duration: 3000,
               panelClass: 'error-snackbar',
             });
+            console.log(err);
           },
         });
     } else {

@@ -8,20 +8,25 @@
           <mat-label>Name</mat-label>
           <input formControlName="name" matInput placeholder="Name" required/>
 
-          @if (signupForm.controls.name.invalid && signupForm.controls.name.touched) {
+          @if (signupForm.controls.name.hasError('required') && signupForm.touched) {
             <mat-error>
               Name is required
             </mat-error>
+          } @else if (signupForm.controls.name.hasError('minlength')) {
+            <mat-error>Name must have at least 3 characters</mat-error>
           }
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Email</mat-label>
           <input formControlName="email" matInput placeholder="Email" required/>
-
-          @if (signupForm.controls.email.invalid && signupForm.controls.email.touched) {
+          @if (signupForm.controls.email.hasError('required') && signupForm.touched) {
             <mat-error>
               Email is required
+            </mat-error>
+          } @else if (signupForm.controls.email.hasError('email')) {
+            <mat-error>
+              Email is invalid
             </mat-error>
           }
         </mat-form-field>
@@ -35,9 +40,13 @@
             <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
 
-          @if (signupForm.controls.password.invalid && signupForm.controls.password.touched) {
+          @if (signupForm.controls.password.hasError('required') && signupForm.touched) {
             <mat-error>
               Password is required
+            </mat-error>
+          } @else if (signupForm.controls.password.hasError('minlength')) {
+            <mat-error>
+              Password must have at least 6 characters
             </mat-error>
           }
         </mat-form-field>
@@ -51,7 +60,7 @@
             <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
 
-          @if (signupForm.controls.confirmPassword.invalid && signupForm.controls.confirmPassword.touched) {
+          @if (signupForm.controls.confirmPassword.invalid && signupForm.touched) {
             <mat-error>
               Confirm Password is required
             </mat-error>
