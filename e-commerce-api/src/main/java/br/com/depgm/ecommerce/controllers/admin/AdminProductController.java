@@ -25,7 +25,7 @@ public class AdminProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(productDTO);
     }
 
-    @GetMapping
+    @GetMapping("products")
     public ResponseEntity<List<ProductDTO>> products() {
         return ResponseEntity.ok(productService.products());
     }
