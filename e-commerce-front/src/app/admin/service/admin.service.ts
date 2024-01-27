@@ -24,7 +24,7 @@ export class AdminService {
   );
 
   products = toSignal(this.allProducts$, {
-    initialValue: [],
+    initialValue: [] as ProductResponseInterface[],
   });
 
   // SEARCH CATEGORIES
@@ -36,7 +36,7 @@ export class AdminService {
   );
 
   categories = toSignal(this.allCategories$, {
-    initialValue: [],
+    initialValue: [] as CategoryResponseInterface[],
   });
 
   // CREATE CATEGORY

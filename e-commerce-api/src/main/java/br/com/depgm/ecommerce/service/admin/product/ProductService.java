@@ -10,4 +10,6 @@ public interface ProductService {
     ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO) throws IOException;
 
     List<ProductResponseDTO> products();
+
+    List<ProductResponseDTO> productsByName(String name);
 }

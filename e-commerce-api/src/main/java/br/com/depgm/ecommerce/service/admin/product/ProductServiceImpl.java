@@ -40,4 +40,10 @@ public class ProductServiceImpl implements ProductService {
         List<Product> getAllProducts = productRepository.findAll();
         return getAllProducts.stream().map(Product::getProductResponseDTO).toList();
     }
+
+    @Override
+    public List<ProductResponseDTO> productsByName(String name) {
+        List<Product> allProductsByName = productRepository.findAllByNameContaining(name);
+        return allProductsByName.stream().map(Product::getProductResponseDTO).toList();
+    }
 }
