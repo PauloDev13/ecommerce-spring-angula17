@@ -5,4 +5,5 @@ export interface ProductResponseInterface {
   description: string;
   byteImg: string;
   category_id: number;
+  categoryName: string;
 }

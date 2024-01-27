@@ -45,7 +45,8 @@ public class Product {
                 price,
                 description,
                 img,
-                category.getId()
+                category.getId(),
+                category.getName()
 //                null
         );
     }

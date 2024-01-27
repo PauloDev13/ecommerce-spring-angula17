@@ -6,7 +6,8 @@ public record ProductResponseDTO(
         Long price,
         String description,
         byte[] byteImg,
-        Long category_id
+        Long category_id,
+        String categoryName
 //        MultipartFile img
 ) {
 }

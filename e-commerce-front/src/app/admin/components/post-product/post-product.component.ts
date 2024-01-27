@@ -35,24 +35,26 @@ import { AdminService } from '../../service/admin.service';
   styleUrl: './post-product.component.scss',
 })
 export class PostProductComponent {
-  protected readonly adminService = inject(AdminService);
-  protected readonly formBuilder = inject(NonNullableFormBuilder);
-  productForm = this.formBuilder.group({
+  protected selectedFile!: File;
+  protected imagePreview = signal<string | ArrayBuffer | null>(null);
+  private formBuilder = inject(NonNullableFormBuilder);
+
+  // FORM PRODUCT
+  protected productForm = this.formBuilder.group({
     img: ['', [Validators.required]],
     categoryId: ['', [Validators.required]],
     name: ['', [Validators.required, Validators.minLength(3)]],
     price: ['', [Validators.required]],
     description: ['', [Validators.required, Validators.minLength(5)]],
   });
-  protected readonly router = inject(Router);
-  protected readonly snackBar = inject(MatSnackBar);
+
+  private adminService = inject(AdminService);
   protected listCategories = this.adminService.categories;
-  protected selectedFile!: File;
-  protected imagePreview = signal<string | ArrayBuffer | null>(null);
+  private router = inject(Router);
+  private snackBar = inject(MatSnackBar);
 
   addProduct() {
     if (this.productForm.valid) {
-      console.log('PASSOU');
       const { categoryId, name, price, description } =
         this.productForm.getRawValue();
 
