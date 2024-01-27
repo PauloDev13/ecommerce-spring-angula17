@@ -1,7 +1,7 @@
 .container {
   max-width: 600px;
   padding: 20px;
-  margin: 90px auto 0;
+  margin: 50px auto 0;
 
   h2 {
     text-align: center;
@@ -14,7 +14,7 @@
     flex-direction: column;
 
     mat-form-field {
-      margin-bottom: 20px;
+      margin-bottom: 5px;
 
       .mat-form-field-wrapper {
         border-radius: 4px;

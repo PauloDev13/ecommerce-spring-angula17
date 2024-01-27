@@ -4,27 +4,37 @@
     <div class="file-upload-container">
       <label class="file-upload-label">
         <span>Select a File</span>
-        <input type="file" id="fileInput" (change)="onFileSelected($any($event.target).files)" hidden/>
+        <input (change)="onFileSelected($any($event.target).files)"
+               accept="image/**"
+               hidden
+               id="fileInput"
+               type="file"/>
         <mat-icon>attach_file</mat-icon>
       </label>
-      @if (selectedFile) {
-        <div class="image-preview">
+
+      <div class="image-preview">
+        @if (selectedFile) {
           <div class="circle-image">
-            <img [src]="imagePreview" alt="selected image" class="preview-image">
+            <img [src]="imagePreview()" alt="selected image" class="preview-image">
           </div>
-        </div>
-      }
+        } @else {
+          <div class="circle-image-lower">
+            <img src="./assets/images/sem-foto.jpg" alt="selected image" class="preview-image">
+          </div>
+        }
+      </div>
     </div>
 
     <mat-form-field appearance="outline" class="form-field">
       <mat-label>Select a Category</mat-label>
-      <mat-select formControlName="">
-        @for(category of listCategories(); track category.id) {
-          <mat-option [value]="category.id" >
+      <mat-select formControlName="categoryId">
+        @for (category of listCategories(); track category.id) {
+          <mat-option value="{{ category.id}}">
             {{ category.name }}
           </mat-option>
         }
       </mat-select>
+
       @if (productForm.controls.categoryId.hasError('required')) {
         <mat-error>Category is required</mat-error>
       }
@@ -52,7 +62,7 @@
 
     <mat-form-field appearance="outline" class="form-field">
       <mat-label>Description</mat-label>
-      <textarea formControlName="description" matInput placeholder="Description" ></textarea>
+      <textarea formControlName="description" matInput placeholder="Description"></textarea>
 
       @if (productForm.controls.description.hasError('required') && productForm.touched) {
         <mat-error>Description is required</mat-error>

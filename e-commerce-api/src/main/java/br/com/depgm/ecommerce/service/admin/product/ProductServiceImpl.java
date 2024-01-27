@@ -14,9 +14,9 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ProductServiceImpl implements ProductService{
-    private ProductRepository productRepository;
-    private CategoryRepository categoryRepository;
+public class ProductServiceImpl implements ProductService {
+    private final CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
 
 
     @Override
@@ -37,7 +37,7 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public List<ProductDTO> products() {
-        List<Product> getAllProduts = productRepository.findAll();
-        return getAllProduts.stream().map(Product::getProductDTO).toList();
+        List<Product> getAllProducts = productRepository.findAll();
+        return getAllProducts.stream().map(Product::getProductDTO).toList();
     }
 }
