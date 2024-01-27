@@ -1,7 +1,7 @@
 package br.com.depgm.ecommerce.controllers.admin;
 
-import br.com.depgm.ecommerce.dtos.ProductDTO;
 import br.com.depgm.ecommerce.dtos.ProductRequestDTO;
+import br.com.depgm.ecommerce.dtos.ProductResponseDTO;
 import br.com.depgm.ecommerce.service.admin.product.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +20,13 @@ public class AdminProductController {
     }
 
     @PostMapping("product")
-    public ResponseEntity<ProductDTO> createProduct(@ModelAttribute ProductRequestDTO productRequestDTO) throws IOException {
-        ProductDTO productDTO = productService.createProduct(productRequestDTO);
+    public ResponseEntity<ProductResponseDTO> createProduct(@ModelAttribute ProductRequestDTO productRequestDTO) throws IOException {
+        ProductResponseDTO productDTO = productService.createProduct(productRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(productDTO);
     }
 
     @GetMapping("products")
-    public ResponseEntity<List<ProductDTO>> products() {
+    public ResponseEntity<List<ProductResponseDTO>> products() {
         return ResponseEntity.ok(productService.products());
     }
 

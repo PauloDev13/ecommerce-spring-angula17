@@ -38,6 +38,7 @@ export class PostProductComponent {
   protected readonly adminService = inject(AdminService);
   protected readonly formBuilder = inject(NonNullableFormBuilder);
   productForm = this.formBuilder.group({
+    img: ['', [Validators.required]],
     categoryId: ['', [Validators.required]],
     name: ['', [Validators.required, Validators.minLength(3)]],
     price: ['', [Validators.required]],
@@ -51,23 +52,36 @@ export class PostProductComponent {
 
   addProduct() {
     if (this.productForm.valid) {
+      console.log('PASSOU');
       const { categoryId, name, price, description } =
         this.productForm.getRawValue();
 
       const formData = new FormData();
-      formData.append('img', this.selectedFile);
-      formData.append('category_id', categoryId);
       formData.append('name', name);
-      formData.append('description', description);
       formData.append('price', price);
+      formData.append('category_id', categoryId);
+      formData.append('description', description);
+      formData.append('img', this.selectedFile);
 
       this.adminService
         .createProduct$(formData)
         .pipe(take(1))
         .subscribe({
-          next: () => {},
+          next: () => {
+            this.router.navigate(['admin/dashboard']).then(() => {
+              this.snackBar.open('Product created successfully', 'close', {
+                duration: 3000,
+              });
+            });
+          },
           error: err => {
-            console.log('Error', err);
+            this.snackBar.open(
+              'Error Product create ' + JSON.stringify(err),
+              'close',
+              {
+                duration: 3000,
+              },
+            );
           },
         });
     } else {
@@ -77,7 +91,7 @@ export class PostProductComponent {
 
   onFileSelected(files: File[]): void {
     this.selectedFile = files[0];
-    console.log(this.selectedFile);
+
     const fileReader = new FileReader();
 
     if (this.selectedFile) {

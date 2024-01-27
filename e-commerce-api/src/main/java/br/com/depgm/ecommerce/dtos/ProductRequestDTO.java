@@ -7,7 +7,8 @@ public record ProductRequestDTO(
         String name,
         Long price,
         String description,
-        byte[] byteImg,
+//        byte[] byteImg,
         Long category_id,
         MultipartFile img
-) { }
+) {
+}

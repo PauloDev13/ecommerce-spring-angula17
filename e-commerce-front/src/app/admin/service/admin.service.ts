@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { CategoryRequestInterface } from '../../models/category-request.interface';
 import { CategoryResponseInterface } from '../../models/category-response.interface';
+import { ProductResponseInterface } from '../../models/product-response.interface';
 import { UserStorageService } from '../../services/user-storage.service';
 
 @Injectable({
@@ -13,10 +14,13 @@ import { UserStorageService } from '../../services/user-storage.service';
 export class AdminService {
   private readonly BASE_URL: string = 'http://localhost:8080';
   private readonly http = inject(HttpClient);
-  private allCategories$ = this.http.get<CategoryResponseInterface[]>(
-    `${this.BASE_URL}/api/admin/categories`,
-    { headers: this.authorizationHeader() },
-  );
+
+  protected readonly allCategories$ = this.http.get<
+    CategoryResponseInterface[]
+  >(`${this.BASE_URL}/api/admin/categories`, {
+    headers: this.authorizationHeader(),
+  });
+
   categories = toSignal<
     CategoryResponseInterface[],
     CategoryResponseInterface[]
@@ -35,9 +39,13 @@ export class AdminService {
   }
 
   createProduct$(product: FormData) {
-    return this.http.post(`${this.BASE_URL}/api/admin/product`, product, {
-      headers: this.authorizationHeader(),
-    });
+    return this.http.post<ProductResponseInterface>(
+      `${this.BASE_URL}/api/admin/product`,
+      product,
+      {
+        headers: this.authorizationHeader(),
+      },
+    );
   }
 
   private authorizationHeader(): HttpHeaders {

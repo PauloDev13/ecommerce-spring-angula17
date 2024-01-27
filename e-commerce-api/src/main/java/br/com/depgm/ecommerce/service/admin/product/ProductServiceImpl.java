@@ -1,7 +1,7 @@
 package br.com.depgm.ecommerce.service.admin.product;
 
-import br.com.depgm.ecommerce.dtos.ProductDTO;
 import br.com.depgm.ecommerce.dtos.ProductRequestDTO;
+import br.com.depgm.ecommerce.dtos.ProductResponseDTO;
 import br.com.depgm.ecommerce.entity.Category;
 import br.com.depgm.ecommerce.entity.Product;
 import br.com.depgm.ecommerce.repository.CategoryRepository;
@@ -20,7 +20,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public ProductDTO createProduct(ProductRequestDTO productRequestDTO) throws IOException {
+    public ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO) throws IOException {
         Product newProduct = new Product();
         newProduct.setName(productRequestDTO.name());
         newProduct.setPrice(productRequestDTO.price());
@@ -31,13 +31,13 @@ public class ProductServiceImpl implements ProductService {
 
         newProduct.setCategory(foundCategory);
 
-        return productRepository.save(newProduct).getProductDTO();
+        return productRepository.save(newProduct).getProductResponseDTO();
 
     }
 
     @Override
-    public List<ProductDTO> products() {
+    public List<ProductResponseDTO> products() {
         List<Product> getAllProducts = productRepository.findAll();
-        return getAllProducts.stream().map(Product::getProductDTO).toList();
+        return getAllProducts.stream().map(Product::getProductResponseDTO).toList();
     }
 }

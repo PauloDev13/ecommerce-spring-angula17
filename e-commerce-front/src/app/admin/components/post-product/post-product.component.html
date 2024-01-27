@@ -6,23 +6,22 @@
         <span>Select a File</span>
         <input (change)="onFileSelected($any($event.target).files)"
                accept="image/**"
+               formControlName="img"
                hidden
                id="fileInput"
                type="file"/>
         <mat-icon>attach_file</mat-icon>
       </label>
 
-      <div class="image-preview">
-        @if (selectedFile) {
+      @if (selectedFile) {
+        <div class="image-preview">
           <div class="circle-image">
             <img [src]="imagePreview()" alt="selected image" class="preview-image">
           </div>
-        } @else {
-          <div class="circle-image-lower">
-            <img src="./assets/images/sem-foto.jpg" alt="selected image" class="preview-image">
-          </div>
-        }
-      </div>
+        </div>
+      } @else if (productForm.controls.img.hasError('required') && productForm.touched) {
+        <mat-error>Image is required</mat-error>
+      }
     </div>
 
     <mat-form-field appearance="outline" class="form-field">

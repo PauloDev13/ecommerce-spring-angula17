@@ -1,6 +1,6 @@
 package br.com.depgm.ecommerce.entity;
 
-import br.com.depgm.ecommerce.dtos.ProductDTO;
+import br.com.depgm.ecommerce.dtos.ProductResponseDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -38,15 +38,15 @@ public class Product {
     @JsonIgnore
     private Category category;
 
-    public ProductDTO getProductDTO() {
-        return new ProductDTO(
+    public ProductResponseDTO getProductResponseDTO() {
+        return new ProductResponseDTO(
                 id,
                 name,
                 price,
                 description,
                 img,
-                category.getId(),
-                null
+                category.getId()
+//                null
         );
     }
 
