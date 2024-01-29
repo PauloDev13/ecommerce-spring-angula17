@@ -1,64 +1,83 @@
 <form (submit)="onSubmit()" [formGroup]="searchFormProduct" class="search-form">
   <mat-form-field>
     <mat-label>Enter for search</mat-label>
-    <input formControlName="title" matInput type="text"/>
+    <input formControlName="title" matInput type="text" (change)="onSubmit()"/>
 
     <button [disabled]="searchFormProduct.invalid" color="primary" mat-button matSuffix>
       <mat-icon>search</mat-icon>
     </button>
   </mat-form-field>
-  <button (click)="onReset()">Reset</button>
+<!--  <button (click)="onReset()">Reset</button>-->
 </form>
+<!--<div class="container">-->
+<!--  <div class="row">-->
+<!--    <div class="col">-->
+<!--      <mat-form-field>-->
+<!--        <mat-label>Enter for search</mat-label>-->
+<!--        <input name="filterName" [(ngModel)]="filterName" matInput type="text"/>-->
+
+<!--        <button color="primary" mat-button matSuffix>-->
+<!--          <mat-icon>search</mat-icon>-->
+<!--        </button>-->
+<!--      </mat-form-field>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
 <div class="product-list">
+  @if (products().length > 0) {
+    @for (product of products(); track product.id) {
+      <mat-card class="product-card">
+        <div class="product-image">
+          <img [src]="'data:image/jpeg;base64,' + product.byteImg" alt="product-image">
+        </div>
+        <div class="product-details">
+          <h2 class="product-name">{{ product.name }}</h2>
+          <p class="product-description">{{ product.description }}</p>
 
-  @for (product of products(); track product.id) {
-    <mat-card class="product-card">
-      <div class="product-image">
-        <img [src]="'data:image/jpeg;base64,' + product.byteImg" alt="product-image">
-      </div>
-      <div class="product-details">
-        <h2 class="product-name">{{ product.name }}</h2>
-        <p class="product-description">{{ product.description }}</p>
+          <mat-divider/>
 
-        <mat-divider/>
-
-        <div class="product-info">
-          <div class="info-row">
-            <span class="info-label">Price:</span>
-            <span class="info-value">${{ product.price }}</span>
+          <div class="product-info">
+            <div class="info-row">
+              <span class="info-label">Price:</span>
+              <span class="info-value">${{ product.price }}</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Category:</span>
+              <span class="info-value">{{ product.categoryName }}</span>
+            </div>
           </div>
-          <div class="info-row">
-            <span class="info-label">Category:</span>
-            <span class="info-value">{{ product.categoryName }}</span>
+
+          <mat-divider/>
+
+          <div class="actions">
+            <button
+              mat-raised-button
+              color="primary"
+              class="update-button"
+              [routerLink]="['/admin/faq', product.id]">
+              FAQ
+            </button>
+            <button
+              mat-raised-button
+              color="accent"
+              class="update-button"
+              [routerLink]="['/admin/product', product.id]">
+              Update
+            </button>
+            <button
+              mat-raised-button
+              color="warn"
+              class="delete-button">
+              Delete
+            </button>
           </div>
         </div>
 
-        <mat-divider/>
-
-        <div class="actions">
-          <button
-            mat-raised-button
-            color="primary"
-            class="update-button"
-            [routerLink]="['/admin/faq', product.id]">
-            FAQ
-          </button>
-          <button
-            mat-raised-button
-            color="accent"
-            class="update-button"
-            [routerLink]="['/admin/product', product.id]">
-            Update
-          </button>
-          <button
-            mat-raised-button
-            color="warn"
-            class="delete-button">
-            Delete
-          </button>
-        </div>
-      </div>
-
-    </mat-card>
+      </mat-card>
+    }
+  } @else {
+    <div>Not Found</div>
   }
+
 </div>
