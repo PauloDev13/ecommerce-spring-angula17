@@ -24,16 +24,17 @@
 .product-list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  gap: 30px;
+  justify-content: flex-start;
   background-color: #f8f8f8;
   min-height: 70vh;
   padding: 20px;
 
   .product-card {
     width: calc(33.33% - 20px);
-    margin-bottom: 20px;
+    //margin-bottom: 20px;
     border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .4);
 
     .product-image {
       height: 200px;
@@ -108,4 +109,14 @@
     color: #616161;
     margin-top: 10px;
   }
+}
+
+.not-found-product {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: red;
+  font-size: 20px;
+  background-color: #f8f8f8;
+  min-height: 75vh;
 }

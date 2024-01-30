@@ -11,7 +11,7 @@ export class FilterProductPipe implements PipeTransform {
     value: ProductResponseInterface[],
     arg: string,
   ): ProductResponseInterface[] {
-    if (arg === '' || arg.length < 2) return value;
+    if (arg.length < 2) return value;
 
     const resultProducts: ProductResponseInterface[] = [];
     for (const product of value) {
@@ -19,6 +19,7 @@ export class FilterProductPipe implements PipeTransform {
         resultProducts.push(product);
       }
     }
+
     return resultProducts;
   }
 }

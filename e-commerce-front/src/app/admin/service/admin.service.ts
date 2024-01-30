@@ -13,7 +13,7 @@ import { UserStorageService } from '../../services/user-storage.service';
 })
 export class AdminService {
   listProducts = signal<ProductResponseInterface[]>([]);
-  listProducts2 = signal<ProductResponseInterface[]>([]);
+  listFilter = signal<ProductResponseInterface[]>([]);
   private readonly BASE_URL: string = 'http://localhost:8080';
   private readonly http = inject(HttpClient);
   // SEARCH ALL PRODUCTS
@@ -25,7 +25,7 @@ export class AdminService {
       take(1),
       tap(res => {
         this.listProducts.set(res);
-        this.listProducts2.set(res);
+        this.listFilter.set(res);
       }),
     )
     .subscribe();
