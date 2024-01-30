@@ -16,7 +16,8 @@ export class AdminService {
   listFilter = signal<ProductResponseInterface[]>([]);
   private readonly BASE_URL: string = 'http://localhost:8080';
   private readonly http = inject(HttpClient);
-  // SEARCH ALL PRODUCTS
+
+  // GET ALL PRODUCTS
   private allProducts$ = this.http
     .get<ProductResponseInterface[]>(`${this.BASE_URL}/api/admin/products`, {
       headers: this.authorizationHeader(),
@@ -30,10 +31,6 @@ export class AdminService {
     )
     .subscribe();
 
-  // SIGNAL GET ALL PRODUCTS
-  // products = toSignal(this.allProducts$, {
-  //   initialValue: [] as ProductResponseInterface[],
-  // });
   // SEARCH ALL CATEGORIES
   private allCategories$ = this.http.get<CategoryResponseInterface[]>(
     `${this.BASE_URL}/api/admin/categories`,

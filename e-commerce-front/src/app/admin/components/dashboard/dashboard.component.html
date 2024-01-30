@@ -1,9 +1,8 @@
 <form class="search-form">
   <mat-form-field>
     <mat-label>Enter for search</mat-label>
-    <input (keyup)="onSubmit($any($event.target).value)" matInput name="filterName"
+    <input (keyup)="onSearch($any($event.target).value)" matInput name="filterName"
            type="text"/>
-
     <mat-icon matSuffix>search</mat-icon>
   </mat-form-field>
 </form>

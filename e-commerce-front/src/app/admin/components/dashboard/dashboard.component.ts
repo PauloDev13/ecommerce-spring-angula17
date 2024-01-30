@@ -46,16 +46,17 @@ export class DashboardComponent {
   protected products = this.adminService.listProducts;
   protected productsFilter = this.adminService.listFilter;
 
-  onSubmit(text: string) {
+  onSearch(text: string) {
     this.products.update(() => this.productsFilter());
-
     const resultProducts: ProductResponseInterface[] = [];
-    for (const product of this.products()) {
-      if (product.name.toLowerCase().indexOf(text.toLowerCase()) > -1) {
-        resultProducts.push(product);
-      }
-    }
 
-    this.products.update(() => resultProducts);
+    if (text.length > 2) {
+      for (const product of this.products()) {
+        if (product.name.toLowerCase().indexOf(text.toLowerCase()) > -1) {
+          resultProducts.push(product);
+        }
+      }
+      this.products.update(() => resultProducts);
+    }
   }
 }
