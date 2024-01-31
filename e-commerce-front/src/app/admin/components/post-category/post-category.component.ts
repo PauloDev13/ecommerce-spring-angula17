@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
 
+import { CustomValidateMessageComponent } from '../../../shared/custom-validate-message/custom-validate-message.component';
 import { AdminService } from '../../service/admin.service';
 
 @Component({
@@ -19,6 +20,7 @@ import { AdminService } from '../../service/admin.service';
     MatError,
     MatInput,
     MatButton,
+    CustomValidateMessageComponent,
   ],
   templateUrl: './post-category.component.html',
   styleUrl: './post-category.component.scss',

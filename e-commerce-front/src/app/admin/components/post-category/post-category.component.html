@@ -1,25 +1,18 @@
 <div class="container">
   <h2>Add Category</h2>
   <form (ngSubmit)="addCategory()" [formGroup]="categoryForm">
-    <mat-form-field appearance="outline" class="form-field">
+    <app-custom-validate-message class="msg-error"
+                                 controlName="name"></app-custom-validate-message>
+    <mat-form-field appearance="outline">
       <mat-label>Name</mat-label>
       <input formControlName="name" matInput placeholder="Name" type="text"/>
-
-      @if (categoryForm.controls.name.hasError('required') && categoryForm.touched) {
-        <mat-error>Name is required</mat-error>
-      } @else if (categoryForm.controls.name.hasError('minlength')) {
-        <mat-error>Name must have at least 3 characters</mat-error>
-      }
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="form-field">
+    <app-custom-validate-message class="msg-error" controlName="description"
+                                 minLength="5"></app-custom-validate-message>
+    <mat-form-field appearance="outline">
       <mat-label>Description</mat-label>
       <input formControlName="description" matInput placeholder="Description" type="text"/>
-      @if (categoryForm.controls.description.hasError('required') && categoryForm.touched) {
-        <mat-error>Description is required</mat-error>
-      } @else if (categoryForm.controls.description.hasError('minlength')) {
-        <mat-error>Description must have at least 5 characters</mat-error>
-      }
     </mat-form-field>
 
     <button color="primary" mat-raised-button type="submit">Add Category</button>

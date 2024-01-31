@@ -1,0 +1,34 @@
+@if (control && control.invalid && control.touched) {
+
+  <ng-container>
+    @if (control.hasError('required')) {
+      <mat-error style="margin: 0">
+        &#9888; {{ controlName }} é obrigatório!
+      </mat-error>
+    }
+    @if (control.hasError('email')) {
+      <mat-error>
+        &#9888; Endereço de E-mail inválido!
+      </mat-error>
+    }
+
+    @if (control.hasError('minlength') && minLength) {
+      <mat-error>
+        &#9888; {{ controlName }} deve ter ao menos {{ minLength }} caracteres!
+      </mat-error>
+    }
+
+    @if (control.hasError('maxlength') && maxLength) {
+      <mat-error>
+        &#9888; {{ controlName }} deve ter no máximo {{ maxLength }} caracteres!
+      </mat-error>
+    }
+    @if (control.hasError('pattern')) {
+      <mat-error>
+        &#9888; Padrão inválido!
+      </mat-error>
+    }
+
+  </ng-container>
+}
+
