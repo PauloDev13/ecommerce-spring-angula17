@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { DestroyRef, inject, Injectable, signal } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { tap } from 'rxjs';
+import { inject, Injectable, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { catchError, EMPTY, tap } from 'rxjs';
 
 import { CategoryRequestInterface } from '../../models/category-request.interface';
 import { CategoryResponseInterface } from '../../models/category-response.interface';
@@ -13,9 +13,9 @@ import { UserStorageService } from '../../services/user-storage.service';
 })
 export class AdminService {
   listProducts = signal<ProductResponseInterface[]>([]);
+  listCategories = signal<CategoryResponseInterface[]>([]);
   private readonly BASE_URL: string = 'http://localhost:8080';
   private readonly http = inject(HttpClient);
-  private readonly destroyRef = inject(DestroyRef);
 
   // GET ALL PRODUCTS
   private allProducts$ = this.http
@@ -23,22 +23,32 @@ export class AdminService {
       headers: this.authorizationHeader(),
     })
     .pipe(
-      takeUntilDestroyed(this.destroyRef),
       tap(res => {
         this.listProducts.set(res);
       }),
-    )
-    .subscribe();
+      catchError(err => {
+        console.log('Error find products', err.error);
+        return EMPTY;
+      }),
+    );
+
+  readOnlyAllProducts = toSignal(this.allProducts$, {
+    initialValue: [] as ProductResponseInterface[],
+  });
 
   // SEARCH ALL CATEGORIES
-  private allCategories$ = this.http.get<CategoryResponseInterface[]>(
-    `${this.BASE_URL}/api/admin/categories`,
-    {
+  private allCategories$ = this.http
+    .get<CategoryResponseInterface[]>(`${this.BASE_URL}/api/admin/categories`, {
       headers: this.authorizationHeader(),
-    },
-  );
+    })
+    .pipe(
+      catchError(err => {
+        console.log('Error find categories', err.error);
+        return EMPTY;
+      }),
+    );
   // SIGNAL GET ALL CATEGORIES
-  categories = toSignal(this.allCategories$, {
+  readOnlyCategories = toSignal(this.allCategories$, {
     initialValue: [] as CategoryResponseInterface[],
   });
 
@@ -53,19 +63,13 @@ export class AdminService {
 
   // CREATE ONE PRODUCT
   createProduct$(product: FormData) {
-    return this.http
-      .post<ProductResponseInterface>(
-        `${this.BASE_URL}/api/admin/product`,
-        product,
-        {
-          headers: this.authorizationHeader(),
-        },
-      )
-      .pipe(
-        tap(productResp => {
-          this.listProducts.update(res => [...res, productResp]);
-        }),
-      );
+    return this.http.post<ProductResponseInterface>(
+      `${this.BASE_URL}/api/admin/product`,
+      product,
+      {
+        headers: this.authorizationHeader(),
+      },
+    );
   }
 
   // SEARCH ALL PRODUCTS BY NAME

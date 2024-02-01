@@ -1,5 +1,6 @@
 import { NgOptimizedImage } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   NonNullableFormBuilder,
   ReactiveFormsModule,
@@ -12,7 +13,7 @@ import { MatInput } from '@angular/material/input';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { take } from 'rxjs';
+import { catchError, EMPTY } from 'rxjs';
 
 import { AdminService } from '../../service/admin.service';
 
@@ -49,9 +50,11 @@ export class PostProductComponent {
   });
 
   private adminService = inject(AdminService);
-  protected listCategories = this.adminService.categories;
+  protected categories = this.adminService.listCategories;
+  protected products = this.adminService.listProducts;
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
+  private destroyRef = inject(DestroyRef);
 
   addProduct() {
     if (this.productForm.valid) {
@@ -67,23 +70,28 @@ export class PostProductComponent {
 
       this.adminService
         .createProduct$(formData)
-        .pipe(take(1))
-        .subscribe({
-          next: () => {
-            this.router.navigate(['admin/dashboard']).then(() => {
-              this.snackBar.open('Product created successfully', 'close', {
-                duration: 3000,
-              });
-            });
-          },
-          error: err => {
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          catchError(err => {
             this.snackBar.open(
-              'Error Product create ' + JSON.stringify(err),
+              'Error Product create ' + JSON.stringify(err.error),
               'close',
               {
                 duration: 3000,
               },
             );
+            return EMPTY;
+          }),
+        )
+        .subscribe({
+          next: product => {
+            this.products.update(products => [...products, product]);
+
+            this.router.navigate(['admin/dashboard']).then(() => {
+              this.snackBar.open('Product created successfully', 'close', {
+                duration: 3000,
+              });
+            });
           },
         });
     } else {
