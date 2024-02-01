@@ -1,6 +1,6 @@
 import { AsyncPipe, NgForOf } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatCard } from '@angular/material/card';
 import { MatDivider } from '@angular/material/divider';
@@ -14,7 +14,6 @@ import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
 
-import { ProductResponseInterface } from '../../../models/product-response.interface';
 import { FilterProductPipe } from '../../pipes/filter-product.pipe';
 import { AdminService } from '../../service/admin.service';
 
@@ -27,7 +26,6 @@ import { AdminService } from '../../service/admin.service';
     NgForOf,
     MatButton,
     RouterLink,
-    ReactiveFormsModule,
     MatFormField,
     MatLabel,
     MatInput,
@@ -42,21 +40,7 @@ import { AdminService } from '../../service/admin.service';
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent {
+  protected filterName = '';
   private adminService = inject(AdminService);
   protected products = this.adminService.listProducts;
-  protected productsFilter = this.adminService.listFilter;
-
-  onSearch(text: string) {
-    this.products.update(() => this.productsFilter());
-    const resultProducts: ProductResponseInterface[] = [];
-
-    if (text.length > 2) {
-      for (const product of this.products()) {
-        if (product.name.toLowerCase().indexOf(text.toLowerCase()) > -1) {
-          resultProducts.push(product);
-        }
-      }
-      this.products.update(() => resultProducts);
-    }
-  }
 }

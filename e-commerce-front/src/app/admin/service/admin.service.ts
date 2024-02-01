@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { take, tap } from 'rxjs';
+import { DestroyRef, inject, Injectable, signal } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { tap } from 'rxjs';
 
 import { CategoryRequestInterface } from '../../models/category-request.interface';
 import { CategoryResponseInterface } from '../../models/category-response.interface';
@@ -13,9 +13,9 @@ import { UserStorageService } from '../../services/user-storage.service';
 })
 export class AdminService {
   listProducts = signal<ProductResponseInterface[]>([]);
-  listFilter = signal<ProductResponseInterface[]>([]);
   private readonly BASE_URL: string = 'http://localhost:8080';
   private readonly http = inject(HttpClient);
+  private readonly destroyRef = inject(DestroyRef);
 
   // GET ALL PRODUCTS
   private allProducts$ = this.http
@@ -23,10 +23,9 @@ export class AdminService {
       headers: this.authorizationHeader(),
     })
     .pipe(
-      take(1),
+      takeUntilDestroyed(this.destroyRef),
       tap(res => {
         this.listProducts.set(res);
-        this.listFilter.set(res);
       }),
     )
     .subscribe();
