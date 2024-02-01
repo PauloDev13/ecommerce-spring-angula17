@@ -16,6 +16,10 @@
         },
         "@schematics/angular:interface": {
           "type": "interface"
+        },
+        "@schematics/angular:interceptor": {
+          "functional": true,
+          "skipTests": true
         }
       },
       "root": "",
