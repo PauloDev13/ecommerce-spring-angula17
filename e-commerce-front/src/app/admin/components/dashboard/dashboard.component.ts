@@ -1,5 +1,6 @@
 import { AsyncPipe, NgForOf } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatCard } from '@angular/material/card';
@@ -13,6 +14,7 @@ import {
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
+import { catchError, EMPTY } from 'rxjs';
 
 import { FilterProductPipe } from '../../pipes/filter-product.pipe';
 import { AdminService } from '../../service/admin.service';
@@ -43,4 +45,23 @@ export class DashboardComponent {
   protected filterName = '';
   private adminService = inject(AdminService);
   protected products = this.adminService.listProducts;
+  private destroyRef = inject(DestroyRef);
+
+  deleteProduct(productId: number) {
+    if (confirm('Confirm delete?')) {
+      this.adminService
+        .deleteProduct$(productId)
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          catchError(err => {
+            console.log('Error delete product', err.errors);
+            return EMPTY;
+          }),
+        )
+        .subscribe({
+          next: () =>
+            this.products().filter(productResp => productResp.id !== productId),
+        });
+    }
+  }
 }

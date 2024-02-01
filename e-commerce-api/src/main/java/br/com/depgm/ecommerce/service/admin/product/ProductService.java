@@ -12,4 +12,6 @@ public interface ProductService {
     List<ProductResponseDTO> products();
 
     List<ProductResponseDTO> productsByName(String name);
+
+    Boolean deleteProduct(Long id);
 }

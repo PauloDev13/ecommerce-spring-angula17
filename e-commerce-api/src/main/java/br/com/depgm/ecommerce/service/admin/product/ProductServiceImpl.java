@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +34,17 @@ public class ProductServiceImpl implements ProductService {
 
         return productRepository.save(newProduct).getProductResponseDTO();
 
+    }
+
+    @Override
+    public Boolean deleteProduct(Long id) {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+
+        if (optionalProduct.isPresent()) {
+            productRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
     @Override

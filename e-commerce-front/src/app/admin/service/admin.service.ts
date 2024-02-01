@@ -64,6 +64,10 @@ export class AdminService {
     );
   }
 
+  deleteProduct$ = (productId: number) => {
+    return this.http.delete(`${this.BASE_URL}/api/admin/product/${productId}`);
+  };
+
   // GET ALL PRODUCTS BY NAME
   allProductsByName$ = (name: string) =>
     this.http.get<ProductResponseInterface[]>(
