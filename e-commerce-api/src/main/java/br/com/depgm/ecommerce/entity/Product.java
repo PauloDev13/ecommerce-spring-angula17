@@ -47,7 +47,6 @@ public class Product {
                 img,
                 category.getId(),
                 category.getName()
-//                null
         );
     }
 

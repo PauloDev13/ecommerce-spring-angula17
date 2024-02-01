@@ -13,6 +13,7 @@ import {
 } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
 import { catchError, EMPTY } from 'rxjs';
 
@@ -46,21 +47,35 @@ export class DashboardComponent {
   private adminService = inject(AdminService);
   protected products = this.adminService.listProducts;
   private destroyRef = inject(DestroyRef);
+  private snackBar = inject(MatSnackBar);
 
-  deleteProduct(productId: number) {
-    if (confirm('Confirm delete?')) {
+  deleteProduct(productId: number): void {
+    if (confirm('Confirm delete product?')) {
       this.adminService
         .deleteProduct$(productId)
         .pipe(
           takeUntilDestroyed(this.destroyRef),
           catchError(err => {
+            this.snackBar.open(
+              'Error Product delete ' + JSON.stringify(err.errors),
+              'close',
+              {
+                duration: 3000,
+              },
+            );
             console.log('Error delete product', err.errors);
             return EMPTY;
           }),
         )
         .subscribe({
-          next: () =>
-            this.products().filter(productResp => productResp.id !== productId),
+          next: () => {
+            this.products.update(respProducts =>
+              respProducts.filter(product => product.id !== productId),
+            );
+            this.snackBar.open('Product deleted successfully', 'close', {
+              duration: 3000,
+            });
+          },
         });
     }
   }
