@@ -24,15 +24,15 @@
 .product-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 20px;
   justify-content: flex-start;
   background-color: #f8f8f8;
   min-height: 70vh;
   padding: 20px;
 
   .product-card {
-    width: calc(33.33% - 20px);
-    //margin-bottom: 20px;
+    width: calc(20% - 20px);
+    height: 400px;
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, .4);
 
