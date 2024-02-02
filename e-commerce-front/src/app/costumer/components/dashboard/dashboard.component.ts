@@ -1,4 +1,5 @@
 import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatCard } from '@angular/material/card';
@@ -42,5 +43,23 @@ export class DashboardComponent {
   private destroyRef = inject(DestroyRef);
   private snackBar = inject(MatSnackBar);
 
-  addToCart(productId: number) {}
+  addToCart(productId: number | string) {
+    this.customerService
+      .addToCart(productId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: response => {
+          this.snackBar.open(
+            'Item adding successfully in the shopp cart',
+            'close',
+            { duration: 3000 },
+          );
+          console.log('PASSOU', response);
+        },
+        error: err => {
+          this.snackBar.open(err.error, 'close', { duration: 3000 });
+          console.log('ERROR', err);
+        },
+      });
+  }
 }

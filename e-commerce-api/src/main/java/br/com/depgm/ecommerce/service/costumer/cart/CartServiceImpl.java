@@ -33,7 +33,7 @@ public class CartServiceImpl implements CartService {
         );
 
         if (optionalCartItem.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Product is already in shopp cart");
         } else {
             Optional<Product> optionalProduct = productRepository.findById(addProductToCartDTO.productId());
             Optional<User> optionalUser = userRepository.findById(addProductToCartDTO.userId());
@@ -45,9 +45,8 @@ public class CartServiceImpl implements CartService {
                 cart.setQuantity(1L);
                 cart.setUser(optionalUser.get());
                 cart.setOrder(activeOrder);
-
-                cartItemRepository.save(cart);
-//                CartItem updateCart = cartItemRepository.save(cart);
+                
+                CartItem updateCart = cartItemRepository.save(cart);
 
                 activeOrder.setTotalAmount(activeOrder.getTotalAmount() + cart.getPrice());
                 activeOrder.setAmount(activeOrder.getAmount() + cart.getPrice());
@@ -55,7 +54,7 @@ public class CartServiceImpl implements CartService {
 
                 orderRepository.save(activeOrder);
 
-                return ResponseEntity.status(HttpStatus.CREATED).body(cart);
+                return ResponseEntity.status(HttpStatus.CREATED).body(updateCart);
 
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User or Product not found");

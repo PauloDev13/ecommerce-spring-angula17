@@ -1,5 +1,6 @@
 package br.com.depgm.ecommerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,7 @@ public class CartItem {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
